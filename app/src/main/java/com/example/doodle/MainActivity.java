@@ -1,13 +1,18 @@
 package com.example.doodle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -19,6 +24,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    private ArrayList<Platform> platforms = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,27 +41,48 @@ public class MainActivity extends AppCompatActivity {
 
         LinearLayout.LayoutParams layoutParams =
                 //new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                new LinearLayout.LayoutParams(230,230);
+                //new LinearLayout.LayoutParams(230,130);//230 230
+                new LinearLayout.LayoutParams(230,ViewGroup.LayoutParams.WRAP_CONTENT);
         FrameLayout layout = findViewById(R.id.myFrame);
         //layout.addView(imageView);
 
         Random random = new Random();
         int amountPlatforms = 30;
-        ArrayList<ImageView> platforms = new ArrayList<>();
+
         for(int i=0;i<amountPlatforms;i++){
-            ImageView imageView = new ImageView(this);
+            Platform imageView = new Platform(this);
+            platforms.add(imageView);
             imageView.setImageResource(R.drawable.platform_default);
-            imageView.setX(random.nextFloat()*830f);
-            imageView.setY(random.nextFloat()*(1760f-(-80f)+(-80f)));//-80 bis 1760
+            imageView.setLayoutParams(layoutParams);
+            imageView.setMyWidth(230);
+            imageView.setMyHeight((float)(71*0.9583333));
+
+
+            layout.addView(imageView);
+            //System.out.println(imageView.hei);
+
+            //imageView.setX(random.nextFloat()*830f);
+
+            //float startY = random.nextFloat()*(1760f-(-80f)+(-80f));
+            //imageView.setY(startY);//-80 bis 1760
+
+            imageView.setRandomPosition(platforms);
+            //imageView.setY(-80f);//-80 bis 1760
+            imageView.setStartPosition(imageView.getY());
+            //imageView.setStartPosition(-80f);
             //Zufallszahl so lange generieren bis kein anderes element im Weg ist!
 
-            imageView.setLayoutParams(layoutParams);
-            layout.addView(imageView);
 
-            @SuppressLint("ResourceType") Animation slideDownAnimation = AnimationUtils.loadAnimation(this,R.drawable.slide_down);
-            imageView.startAnimation(slideDownAnimation);
-            imageView.animate();
+
+
+            //imageView.createAndStartAnimation();
+
 
         }
+
+
+    }
+    private void meineMethode(){
+        System.out.println("Nachher:"+platforms.get(0).getX());
     }
 }
