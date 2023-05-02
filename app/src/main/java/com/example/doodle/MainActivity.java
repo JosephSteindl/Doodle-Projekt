@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private ArrayList<Platform> platforms = new ArrayList<>();
+    private int count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
     }
     public void generatePlatforms(){
         final Button start_btn = findViewById(R.id.start_btn);
-        start_btn.setVisibility(View.GONE);
+        //start_btn.setVisibility(View.GONE);
+        start_btn.setOnClickListener(v-> weiterGenerieren());
 
 
         LinearLayout.LayoutParams layoutParams =
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         //layout.addView(imageView);
 
         Random random = new Random();
-        int amountPlatforms = 30;
+        int amountPlatforms = 20;
 
         for(int i=0;i<amountPlatforms;i++){
             Platform imageView = new Platform(this);
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             //float startY = random.nextFloat()*(1760f-(-80f)+(-80f));
             //imageView.setY(startY);//-80 bis 1760
 
-            imageView.setRandomPosition(platforms);
+            imageView.setRandomPosition(platforms,1760f,-1680f);
             //imageView.setY(-80f);//-80 bis 1760
             imageView.setStartPosition(imageView.getY());
             //imageView.setStartPosition(-80f);
@@ -79,8 +81,45 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+    }
+    private void weiterGenerieren(){
+        System.out.println("Generiere weiter...");
+        float yOberstes = 0;
+        for(int i=0;i<platforms.size();i++){
+            if(platforms.get(i).getY()>yOberstes){
+                yOberstes = platforms.get(i).getY();
+            }
+        }
 
 
+
+
+        LinearLayout.LayoutParams layoutParams =
+                //new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                //new LinearLayout.LayoutParams(230,130);//230 230
+                new LinearLayout.LayoutParams(230,ViewGroup.LayoutParams.WRAP_CONTENT);
+        FrameLayout layout = findViewById(R.id.myFrame);
+        //layout.addView(imageView);
+
+        Random random = new Random();
+        int amountPlatforms = 10;
+
+        for(int i=0;i<amountPlatforms;i++){
+            Platform imageView = new Platform(this);
+            platforms.add(imageView);
+            imageView.setImageResource(R.drawable.platform_default);
+            imageView.setLayoutParams(layoutParams);
+            imageView.setMyWidth(230);
+            imageView.setMyHeight((float)(71*0.9583333));
+            layout.addView(imageView);
+
+            imageView.setRandomPosition(platforms,yOberstes-1760,yOberstes);
+            imageView.setStartPosition(imageView.getY());
+        }
+
+        for(int i=0;i<platforms.size();i++){
+            platforms.get(i).createAndStartAnimation();
+        }
     }
     private void meineMethode(){
         System.out.println("Nachher:"+platforms.get(0).getX());

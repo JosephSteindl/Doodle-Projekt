@@ -55,7 +55,7 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
     public void createAndStartAnimation(){
         Platform me = this;
         ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
-        animator.setDuration(20 *1000);
+        animator.setDuration(30*1000);
         animator.setInterpolator(new LinearInterpolator());
         //animator.setInterpolator(new AccelerateInterpolator());
 
@@ -66,7 +66,7 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
                 float startX = me.getX();
                 float startY = me.getY();
                 float endX = me.getX();
-                float endY = startPosition+2000f;
+                float endY = startPosition+1000f;
                 float currentX = startX + (endX - startX) * progress;
                 float currentY = startY + (endY - startY) * progress;
                 me.setX(currentX);
@@ -83,7 +83,7 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
                 // Animation beendet
 
                 float endX = me.getX();
-                float endY = startPosition+2000f;
+                float endY = startPosition+1000f;
                 me.setX(endX);
                 me.setY(endY);
                 System.out.println("Vorher:"+me.getY());
@@ -103,7 +103,7 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
         animator.start();
     }
 
-    public void setRandomPosition(ArrayList<Platform> platforms){
+    public void setRandomPosition(ArrayList<Platform> platforms,float min, float max){
         Random random = new Random();
 
         //imageView.setX(random.nextFloat()*830f);
@@ -115,7 +115,8 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
         float y = 0;
         while(nochmal){
             x = random.nextFloat()*830f;
-            y = random.nextFloat()*(1760f-(-80f)+(-80f));;
+            //y = random.nextFloat()*(1760f-(-(-1680f))+(-(-1680f)));//random.nextFloat()*(1760f-(-80f)+(-80f)); -1680
+            y = random.nextFloat() * (max - min) + min;
             nochmal = false;
             for(int i=0;i<platforms.size();i++){
                 float pX = platforms.get(i).getX();
