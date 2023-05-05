@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Platform> platforms = new ArrayList<>();
     private int count = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +35,16 @@ public class MainActivity extends AppCompatActivity {
 
         final Button start_btn = findViewById(R.id.start_btn);
         start_btn.setOnClickListener(v-> generatePlatforms());
+
+        //Wanker erstellen
+        /*
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(230,ViewGroup.LayoutParams.WRAP_CONTENT);
+        FrameLayout layout = findViewById(R.id.myFrame);
+        Wanker imageView = new Wanker(this);
+        imageView.setImageResource(R.drawable.man_default);
+        imageView.setLayoutParams(layoutParams);
+        layout.addView(imageView);*/
+
     }
     public void generatePlatforms(){
         final Button start_btn = findViewById(R.id.start_btn);
@@ -52,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         int amountPlatforms = 20;
 
         for(int i=0;i<amountPlatforms;i++){
-            Platform imageView = new Platform(this);
+            Platform imageView = new Platform(this,this.platforms);
             platforms.add(imageView);
             imageView.setImageResource(R.drawable.platform_default);
             imageView.setLayoutParams(layoutParams);
@@ -86,13 +97,11 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Generiere weiter...");
         float yOberstes = 0;
         for(int i=0;i<platforms.size();i++){
-            if(platforms.get(i).getY()>yOberstes){
+            if(platforms.get(i).getY()<yOberstes){
                 yOberstes = platforms.get(i).getY();
             }
         }
-
-
-
+        System.out.println("Oberstes Y:"+yOberstes);
 
         LinearLayout.LayoutParams layoutParams =
                 //new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -105,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         int amountPlatforms = 10;
 
         for(int i=0;i<amountPlatforms;i++){
-            Platform imageView = new Platform(this);
+            Platform imageView = new Platform(this,this.platforms);
             platforms.add(imageView);
             imageView.setImageResource(R.drawable.platform_default);
             imageView.setLayoutParams(layoutParams);
@@ -120,8 +129,6 @@ public class MainActivity extends AppCompatActivity {
         for(int i=0;i<platforms.size();i++){
             platforms.get(i).createAndStartAnimation();
         }
-    }
-    private void meineMethode(){
-        System.out.println("Nachher:"+platforms.get(0).getX());
+        System.out.println("Es gibt jetzt "+platforms.size()+" Plattformen");
     }
 }

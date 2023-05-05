@@ -18,9 +18,14 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
     private float startPosition;
     private float myHeight;
     private float myWidth;
+    private ArrayList<Platform> whereAmI;
 
-    public Platform(Context context) {
+    public Platform(Context context){
         super(context);
+    }
+    public Platform(Context context,ArrayList<Platform> whereAmI) {
+        super(context);
+        this.whereAmI = whereAmI;
     }
 
     public Platform(Context context, AttributeSet attrs) {
@@ -52,16 +57,19 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
         return myWidth;
     }
 
+    private int counter = 0;
     public void createAndStartAnimation(){
         Platform me = this;
         ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
-        animator.setDuration(30*1000);
+        animator.setDuration(1*1000);
         animator.setInterpolator(new LinearInterpolator());
         //animator.setInterpolator(new AccelerateInterpolator());
 
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
+
+                //System.out.println("Animiere:"+counter++);
                 float progress = (float) animation.getAnimatedValue();
                 float startX = me.getX();
                 float startY = me.getY();
@@ -71,6 +79,12 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
                 float currentY = startY + (endY - startY) * progress;
                 me.setX(currentX);
                 me.setY(currentY);
+                if(me.equals(me.whereAmI.get(0))){
+                    System.out.println("Ich bin der erste und werde Animiert!!");
+                    System.out.println("Aktuelles Y:"+me.getY());
+                    System.out.println("Animation Start-Y:"+startPosition);
+                    System.out.println("Animation End-Y:"+(startPosition+1000f));
+                }
             }
         });
         animator.addListener(new Animator.AnimatorListener() {
@@ -84,11 +98,15 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
 
                 float endX = me.getX();
                 float endY = startPosition+1000f;
+                me.setStartPosition(startPosition+1000f);
                 me.setX(endX);
                 me.setY(endY);
-                System.out.println("Vorher:"+me.getY());
-
-
+                System.out.println("Nachher:"+me.getY());
+                if(me.getY()>2000){
+                    System.out.println("Lösche mich, weil ich außerhalb bin!");
+                    me.whereAmI.remove(me);
+                    System.out.println("Länge jetzt:"+me.whereAmI.size());
+                }
             }
             @Override
             public void onAnimationCancel(@NonNull Animator animation) {
@@ -123,16 +141,16 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
                 float pY = platforms.get(i).getY();
                 float pHeight = platforms.get(i).getMyHeight();
                 float pWidth = platforms.get(i).getMyWidth();
-                System.out.println("X:"+x);
+                /*System.out.println("X:"+x);
                 System.out.println("Y:"+y);
                 System.out.println("pX:"+pX);
                 System.out.println("pY:"+pY);
                 System.out.println("Height:"+pHeight);
-                System.out.println("pWidth:"+pWidth);
+                System.out.println("pWidth:"+pWidth);*/
                 if(y>=pY-pHeight && y<=pY+pHeight && x>=pX-pWidth && x<=pX+pWidth){//
                     //Muss neu generiert werden
                     nochmal = true;
-                    System.out.println("Nochmal!");
+                    //System.out.println("Nochmal!");
                     break;
                 }
             }
