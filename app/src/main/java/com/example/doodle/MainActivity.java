@@ -7,6 +7,7 @@ import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private ArrayList<Platform> platforms = new ArrayList<>();
+    private Wanker wanker;
     private int count = 0;
 
     @Override
@@ -37,14 +39,27 @@ public class MainActivity extends AppCompatActivity {
         start_btn.setOnClickListener(v-> generatePlatforms());
 
         //Wanker erstellen
-        /*
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(230,ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(140,ViewGroup.LayoutParams.WRAP_CONTENT);
         FrameLayout layout = findViewById(R.id.myFrame);
-        Wanker imageView = new Wanker(this);
-        imageView.setImageResource(R.drawable.man_default);
-        imageView.setLayoutParams(layoutParams);
-        layout.addView(imageView);*/
+        this.wanker = new Wanker(this);
+        this.wanker.setImageResource(R.drawable.man_default);
+        this.wanker.setLayoutParams(layoutParams);
+        layout.addView(this.wanker);
+        this.wanker.setMyHeight(290f*0.9210526315789f);
+        this.wanker.setMyWidth(140);
 
+        DisplayMetrics dM = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dM);
+        int width = dM.widthPixels;
+        int height = dM.heightPixels;
+        System.out.println("Width:"+width);
+        System.out.println("height:"+height);
+        this.wanker.setX(width/2 - this.wanker.getWidth() -75);
+        //breite /2 - breiteWanker/2
+        System.out.println("Wanker höhe:"+this.wanker.getMyHeight());
+        this.wanker.setY(height-this.wanker.getMyHeight()-800);
+        this.wanker.setStartPosition(this.wanker.getY());
+        this.wanker.setMainActivity(this);
     }
     public void generatePlatforms(){
         final Button start_btn = findViewById(R.id.start_btn);
@@ -93,7 +108,12 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+    private WankerThread wankerThread;
     private void weiterGenerieren(){
+        /*this.wankerThread = new WankerThread(this.wanker);
+        this.wankerThread.start();*/
+        this.wanker.createAndStartAnimation();
+
         System.out.println("Generiere weiter...");
         float yOberstes = 0;
         for(int i=0;i<platforms.size();i++){
@@ -130,5 +150,9 @@ public class MainActivity extends AppCompatActivity {
             platforms.get(i).createAndStartAnimation();
         }
         System.out.println("Es gibt jetzt "+platforms.size()+" Plattformen");
+    }
+
+    public ArrayList<Platform> getPlatforms() {
+        return platforms;
     }
 }

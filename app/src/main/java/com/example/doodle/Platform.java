@@ -80,17 +80,17 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
                 me.setX(currentX);
                 me.setY(currentY);
                 if(me.equals(me.whereAmI.get(0))){
-                    System.out.println("Ich bin der erste und werde Animiert!!");
-                    System.out.println("Aktuelles Y:"+me.getY());
-                    System.out.println("Animation Start-Y:"+startPosition);
-                    System.out.println("Animation End-Y:"+(startPosition+1000f));
+                    //System.out.println("Ich bin der erste und werde Animiert!!");
+                    //System.out.println("Aktuelles Y:"+me.getY());
+                    //System.out.println("Animation Start-Y:"+startPosition);
+                    //System.out.println("Animation End-Y:"+(startPosition+1000f));
                 }
             }
         });
         animator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(@NonNull Animator animation) {
-                System.out.println("Vorher:"+me.getY());
+                //System.out.println("Vorher:"+me.getY());
             }
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -101,7 +101,7 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
                 me.setStartPosition(startPosition+1000f);
                 me.setX(endX);
                 me.setY(endY);
-                System.out.println("Nachher:"+me.getY());
+                //System.out.println("Nachher:"+me.getY());
                 if(me.getY()>2000){
                     System.out.println("Lösche mich, weil ich außerhalb bin!");
                     me.whereAmI.remove(me);
