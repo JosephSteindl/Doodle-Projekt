@@ -18,6 +18,7 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
     private float startPosition;
     private float myHeight;
     private float myWidth;
+    private boolean pause;
     private ArrayList<Platform> whereAmI;
 
     public Platform(Context context){
@@ -35,6 +36,15 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
     public Platform(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
+    public void setPause(boolean pause) {
+        this.pause = pause;
+    }
+
+    public boolean isPause() {
+        return pause;
+    }
+
     public float getStartPosition(){
         return this.startPosition;
     }
@@ -79,6 +89,9 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
                 float currentY = startY + (endY - startY) * progress;
                 me.setX(currentX);
                 me.setY(currentY);
+                if(me.isPause()){
+                    animator.pause();
+                }
                 if(me.equals(me.whereAmI.get(0))){
                     //System.out.println("Ich bin der erste und werde Animiert!!");
                     //System.out.println("Aktuelles Y:"+me.getY());

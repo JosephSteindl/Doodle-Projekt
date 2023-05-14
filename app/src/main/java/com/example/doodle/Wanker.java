@@ -79,7 +79,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
                 float startX = me.getX();
                 float startY = me.getY();
                 float endX = me.getX();
-                float endY = startPosition-1300f;
+                float endY = startPosition-1000f;
                 float currentX = startX + (endX - startX) * progress;
                 float currentY = startY + (endY - startY) * progress;
                 me.setX(currentX);
@@ -102,8 +102,8 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
                 // Animation beendet
 
                 float endX = me.getX();
-                float endY = startPosition-1300f;
-                me.setStartPosition(startPosition-1300f);
+                float endY = startPosition-1000f;
+                me.setStartPosition(startPosition-1000f);
                 me.setX(endX);
                 me.setY(endY);
                 //System.out.println("Nachher:"+me.getY());
@@ -142,7 +142,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
                 float startX = me.getX();
                 float startY = me.getY();
                 float endX = me.getX();
-                float endY = startPosition + 1300f;
+                float endY = startPosition + 1000f;
                 float currentX = startX + (endX - startX) * progress;
                 float currentY = startY + (endY - startY) * progress;
                 me.setX(currentX);
@@ -156,6 +156,9 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
                 if(me.checkCollission()){
                     System.out.println("Kollission erkannt!");
                     animator.pause();
+                    for(int i=0;i<me.getMainActivity().getPlatforms().size();i++){
+                        me.getMainActivity().getPlatforms().get(i).setPause(true);
+                    }
                 }
             }
         });
@@ -170,8 +173,8 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
                 // Animation beendet
 
                 float endX = me.getX();
-                float endY = startPosition + 1300f;
-                me.setStartPosition(startPosition + 1300f);
+                float endY = startPosition + 1000f;
+                me.setStartPosition(startPosition + 1000f);
                 me.setX(endX);
                 me.setY(endY);
                 //System.out.println("Nachher:" + me.getY());
@@ -198,6 +201,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
     }
     private int collisionCount = 0;
     public boolean checkCollission(){
+        //System.out.println("Ckeck collision!");
         /*ArrayList<Platform> platforms = this.mainActivity.getPlatforms();
         for(int i=0;i<platforms.size();i++){
             Rect rect1 = new Rect();
@@ -217,17 +221,20 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
             Coordinate platformLO = new Coordinate(p.getX(),p.getY());
             Coordinate platformRO = new Coordinate(p.getX()+p.getMyWidth(),p.getY());
             float puffer = 5f;
-            if(this.getY() >= p.getY()-puffer && this.getY() <= p.getY()+puffer){
-                System.out.println("Platform ist jetzt auf gleicher höhe wie Wanker!"+collisionCount++);
+            //System.out.println("Y-Wanker:"+(this.getY()+this.getMyHeight()));
+            //System.out.println("Y-oben-platf.:"+p.getY());
+            //System.out.println("Y-unten-platf.:"+(p.getY()+p.getMyHeight()));
+            if(this.getY()+this.getMyHeight()-20 >= p.getY() && this.getY()+this.getMyHeight() <= p.getY()+p.getMyHeight()){//this.getY() >= p.getY()-puffer && this.getY() <= p.getY()+puffer
+                //System.out.println("Platform ist jetzt auf gleicher höhe wie Wanker!"+collisionCount++);
                 //Y-Koordinate vergleichen
                 if((wankerLU.getX() > platformLO.getX() && wankerLU.getX() < platformRO.getX()) ||(wankerRU.getX() > platformLO.getX() && wankerRU.getX() < platformRO.getX())){
                    //wenn LU zwischen Plattformgrenzen oder RU zwischen Plattformgrenzen
-                    for(int j=0;j<platforms.size();j++){
+                    /*for(int j=0;j<platforms.size();j++){
                         if(!platforms.get(j).equals(p)){
                             platforms.get(j).setVisibility(View.INVISIBLE);
                         }
-                    }
-                    System.out.println("Index:"+i);
+                    }*/
+                    //System.out.println("Index:"+i);
                     return true;
                 }
             }

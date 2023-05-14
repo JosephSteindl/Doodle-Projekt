@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         this.wanker.setImageResource(R.drawable.man_default);
         this.wanker.setLayoutParams(layoutParams);
         layout.addView(this.wanker);
-        this.wanker.setMyHeight(290f*0.9210526315789f);
+        this.wanker.setMyHeight(290f*0.9210526315789f +180);
         this.wanker.setMyWidth(140);
 
         DisplayMetrics dM = new DisplayMetrics();
@@ -60,6 +60,30 @@ public class MainActivity extends AppCompatActivity {
         this.wanker.setY(height-this.wanker.getMyHeight()-800);
         this.wanker.setStartPosition(this.wanker.getY());
         this.wanker.setMainActivity(this);
+
+        //meineTestFunction();
+    }
+    public void meineTestFunction(){
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(140,ViewGroup.LayoutParams.WRAP_CONTENT);
+        FrameLayout layout = findViewById(R.id.myFrame);
+        Wanker test = new Wanker(this);
+        test.setImageResource(R.drawable.man_default);
+        test.setLayoutParams(layoutParams);
+        layout.addView(test);
+        test.setMyHeight(290f*0.9210526315789f + 180);
+        test.setMyWidth(140);
+        test.setX(300);
+        test.setY(400);
+
+        LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(230,ViewGroup.LayoutParams.WRAP_CONTENT);
+        Platform imageView = new Platform(this,this.platforms);
+        imageView.setImageResource(R.drawable.platform_default);
+        imageView.setLayoutParams(layoutParams1);
+        imageView.setMyWidth(230);
+        imageView.setMyHeight((float)(71*0.9583333));
+        layout.addView(imageView);
+        imageView.setX(250);
+        imageView.setY(400f+test.getMyHeight());
     }
     public void generatePlatforms(){
         final Button start_btn = findViewById(R.id.start_btn);
@@ -67,15 +91,12 @@ public class MainActivity extends AppCompatActivity {
         start_btn.setOnClickListener(v-> weiterGenerieren());
 
 
-        LinearLayout.LayoutParams layoutParams =
-                //new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                //new LinearLayout.LayoutParams(230,130);//230 230
-                new LinearLayout.LayoutParams(230,ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(230,ViewGroup.LayoutParams.WRAP_CONTENT);
         FrameLayout layout = findViewById(R.id.myFrame);
         //layout.addView(imageView);
 
         Random random = new Random();
-        int amountPlatforms = 20;
+        int amountPlatforms = 20;//20 Änderung
 
         for(int i=0;i<amountPlatforms;i++){
             Platform imageView = new Platform(this,this.platforms);
@@ -94,7 +115,9 @@ public class MainActivity extends AppCompatActivity {
             //float startY = random.nextFloat()*(1760f-(-80f)+(-80f));
             //imageView.setY(startY);//-80 bis 1760
 
-            imageView.setRandomPosition(platforms,1760f,-1680f);
+            imageView.setRandomPosition(platforms,1760f,-1680f); //Änderung -> zeile wieder gültig machen und unteren 2 zeilen wegmachen
+            //imageView.setX(400);
+            //imageView.setY(200);
             //imageView.setY(-80f);//-80 bis 1760
             imageView.setStartPosition(imageView.getY());
             //imageView.setStartPosition(-80f);
@@ -112,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     private void weiterGenerieren(){
         /*this.wankerThread = new WankerThread(this.wanker);
         this.wankerThread.start();*/
-        this.wanker.createAndStartAnimation();
+
 
         System.out.println("Generiere weiter...");
         float yOberstes = 0;
@@ -131,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         //layout.addView(imageView);
 
         Random random = new Random();
-        int amountPlatforms = 10;
+        int amountPlatforms = 10;//10 Änderung
 
         for(int i=0;i<amountPlatforms;i++){
             Platform imageView = new Platform(this,this.platforms);
@@ -145,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
             imageView.setRandomPosition(platforms,yOberstes-1760,yOberstes);
             imageView.setStartPosition(imageView.getY());
         }
-
+        this.wanker.createAndStartAnimation();
         for(int i=0;i<platforms.size();i++){
             platforms.get(i).createAndStartAnimation();
         }
