@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         this.wanker.setLayoutParams(layoutParams);
         layout.addView(this.wanker);
         this.wanker.setMyHeight(290f*0.9210526315789f +180);
-        this.wanker.setMyWidth(140);
+        this.wanker.setMyWidth(140-75);
 
         DisplayMetrics dM = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dM);
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         test.setLayoutParams(layoutParams);
         layout.addView(test);
         test.setMyHeight(290f*0.9210526315789f + 180);
-        test.setMyWidth(140);
+        test.setMyWidth(140-75);
         test.setX(300);
         test.setY(400);
 
@@ -79,10 +79,10 @@ public class MainActivity extends AppCompatActivity {
         Platform imageView = new Platform(this,this.platforms);
         imageView.setImageResource(R.drawable.platform_default);
         imageView.setLayoutParams(layoutParams1);
-        imageView.setMyWidth(230);
+        imageView.setMyWidth(230-50);
         imageView.setMyHeight((float)(71*0.9583333));
         layout.addView(imageView);
-        imageView.setX(250);
+        imageView.setX(300-imageView.getMyWidth());
         imageView.setY(400f+test.getMyHeight());
     }
     public void generatePlatforms(){
@@ -100,10 +100,11 @@ public class MainActivity extends AppCompatActivity {
 
         for(int i=0;i<amountPlatforms;i++){
             Platform imageView = new Platform(this,this.platforms);
+            imageView.setMainActivity(this);
             platforms.add(imageView);
             imageView.setImageResource(R.drawable.platform_default);
             imageView.setLayoutParams(layoutParams);
-            imageView.setMyWidth(230);
+            imageView.setMyWidth(230-50);
             imageView.setMyHeight((float)(71*0.9583333));
 
 
@@ -132,10 +133,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private WankerThread wankerThread;
-    private void weiterGenerieren(){
+    public void weiterGenerieren(){
         /*this.wankerThread = new WankerThread(this.wanker);
         this.wankerThread.start();*/
-
 
         System.out.println("Generiere weiter...");
         float yOberstes = 0;
@@ -158,10 +158,11 @@ public class MainActivity extends AppCompatActivity {
 
         for(int i=0;i<amountPlatforms;i++){
             Platform imageView = new Platform(this,this.platforms);
+            imageView.setMainActivity(this);
             platforms.add(imageView);
             imageView.setImageResource(R.drawable.platform_default);
             imageView.setLayoutParams(layoutParams);
-            imageView.setMyWidth(230);
+            imageView.setMyWidth(230-50);
             imageView.setMyHeight((float)(71*0.9583333));
             layout.addView(imageView);
 

@@ -20,6 +20,8 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
     private float myWidth;
     private boolean pause;
     private ArrayList<Platform> whereAmI;
+    private boolean fertig = true;
+    private MainActivity mainActivity;
 
     public Platform(Context context){
         super(context);
@@ -35,6 +37,21 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
 
     public Platform(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    public MainActivity getMainActivity() {
+        return mainActivity;
+    }
+
+    public void setMainActivity(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
+    }
+
+    public boolean isFertig() {
+        return fertig;
+    }
+    public void setFertig(boolean fertig) {
+        this.fertig = fertig;
     }
 
     public void setPause(boolean pause) {
@@ -69,6 +86,7 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
 
     private int counter = 0;
     public void createAndStartAnimation(){
+        this.fertig = false;
         Platform me = this;
         ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
         animator.setDuration(1*1000);
@@ -90,8 +108,29 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
                 me.setX(currentX);
                 me.setY(currentY);
                 if(me.isPause()){
-                    animator.pause();
+                    //System.out.println("Plattform wurde pausiert!");
+                    //animator.pause();
+                    animator.cancel();
+                    me.setX(currentX);
+                    me.setY(currentY);
+                    me.setStartPosition(me.getY());
+                    me.setPause(false);
+
+                    me.setFertig(true);
+                    boolean all = true;
+                    for(int i=0;i<whereAmI.size();i++){
+                        if(whereAmI.get(i).isFertig() == false){
+                            all = false;
+                            break;
+                        }
+                    }
+                    if(all){
+                        //System.out.println("Bereit zum weiteranimieren!");
+                        me.getMainActivity().weiterGenerieren();
+                    }
                 }
+
+
                 if(me.equals(me.whereAmI.get(0))){
                     //System.out.println("Ich bin der erste und werde Animiert!!");
                     //System.out.println("Aktuelles Y:"+me.getY());
@@ -114,12 +153,15 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
                 me.setStartPosition(startPosition+1000f);
                 me.setX(endX);
                 me.setY(endY);
+                //System.out.println("Plattform am Ende!");
+                me.setFertig(true);
                 //System.out.println("Nachher:"+me.getY());
                 if(me.getY()>2000){
                     System.out.println("Lösche mich, weil ich außerhalb bin!");
                     me.whereAmI.remove(me);
                     System.out.println("Länge jetzt:"+me.whereAmI.size());
                 }
+
             }
             @Override
             public void onAnimationCancel(@NonNull Animator animation) {

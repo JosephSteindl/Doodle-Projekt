@@ -18,6 +18,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
     private float myWidth;
     private float startPosition;
     private MainActivity mainActivity;
+    private boolean fertig = true;
 
     public Wanker(@NonNull Context context) {
         super(context);
@@ -29,6 +30,12 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
 
     public Wanker(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+    public boolean isFertig() {
+        return fertig;
+    }
+    public void setFertig(boolean fertig) {
+        this.fertig = fertig;
     }
 
     public MainActivity getMainActivity() {
@@ -68,6 +75,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
         ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
         animator.setDuration(400);
         animator.setInterpolator(new LinearInterpolator());
+        this.fertig = false;
         //animator.setInterpolator(new AccelerateInterpolator());
 
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -112,6 +120,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
                     me.whereAmI.remove(me);
                     System.out.println("Länge jetzt:"+me.whereAmI.size());
                 }*/
+
                 me.createAndAnimateDown();
             }
             @Override
@@ -132,6 +141,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
         animator.setDuration(1 * 1000);
         animator.setInterpolator(new LinearInterpolator());
         //animator.setInterpolator(new AccelerateInterpolator());
+        this.fertig = false;
 
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -155,10 +165,38 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
                 }*/
                 if(me.checkCollission()){
                     System.out.println("Kollission erkannt!");
-                    animator.pause();
+                    //animator.pause();
+                    animator.cancel();
+                    me.setX(currentX);
+                    me.setY(currentY);
                     for(int i=0;i<me.getMainActivity().getPlatforms().size();i++){
                         me.getMainActivity().getPlatforms().get(i).setPause(true);
                     }
+                    me.setFertig(true);
+                    /*
+                    //me.getMainActivity().weiterGenerieren();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    boolean condition = true;
+                    while(condition){
+                        condition = false;
+                        if(this.wanker.isFertig()==false){
+                            condition = true;
+                            continue;
+                        }
+
+                        for(int i=0;i<me.getMainActivity().getPlatforms().size();i++){
+                            if(me.getMainActivity().getPlatforms().get(i).isFertig()==false){
+                                condition = true;
+                                //System.out.println("Plattform ist noch nicht fertig!");
+                                break;
+                            }
+                        }
+                    }*/
+                    //System.out.println("Bereit zum weiterAnimieren!!!");
                 }
             }
         });
@@ -184,6 +222,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
                     System.out.println("Länge jetzt:"+me.whereAmI.size());
                 }*/
                 //me.createAndStartAnimation();
+                me.setFertig(true);
             }
 
             @Override
@@ -224,7 +263,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
             //System.out.println("Y-Wanker:"+(this.getY()+this.getMyHeight()));
             //System.out.println("Y-oben-platf.:"+p.getY());
             //System.out.println("Y-unten-platf.:"+(p.getY()+p.getMyHeight()));
-            if(this.getY()+this.getMyHeight()-20 >= p.getY() && this.getY()+this.getMyHeight() <= p.getY()+p.getMyHeight()){//this.getY() >= p.getY()-puffer && this.getY() <= p.getY()+puffer
+            if(this.getY()+this.getMyHeight() >= p.getY()-20 && this.getY()+this.getMyHeight() <= p.getY()+p.getMyHeight()){//this.getY() >= p.getY()-puffer && this.getY() <= p.getY()+puffer
                 //System.out.println("Platform ist jetzt auf gleicher höhe wie Wanker!"+collisionCount++);
                 //Y-Koordinate vergleichen
                 if((wankerLU.getX() > platformLO.getX() && wankerLU.getX() < platformRO.getX()) ||(wankerRU.getX() > platformLO.getX() && wankerRU.getX() < platformRO.getX())){
