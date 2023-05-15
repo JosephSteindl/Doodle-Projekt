@@ -19,6 +19,10 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
     private float startPosition;
     private MainActivity mainActivity;
     private boolean fertig = true;
+    private float animateDistance = 1000;
+    private float defaultTopY;
+    private float defaultBottomY;
+    private float screenHeight;
 
     public Wanker(@NonNull Context context) {
         super(context);
@@ -31,6 +35,23 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
     public Wanker(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
+    public void setScreenHeight(float screenHeight) {
+        this.screenHeight = screenHeight;
+    }
+
+    public float getScreenHeight() {
+        return screenHeight;
+    }
+
+    public void setDefaultTopY(float defaultTopY) {
+        this.defaultTopY = defaultTopY;
+    }
+
+    public void setDefaultBottomY(float defaultBottomY) {
+        this.defaultBottomY = defaultBottomY;
+    }
+
     public boolean isFertig() {
         return fertig;
     }
@@ -69,13 +90,19 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
     public void setStartPosition(float startPosition) {
         this.startPosition = startPosition;
     }
+    public float getAnimateDistance() {
+        return animateDistance;
+    }
 
     public void createAndStartAnimation(){
         Wanker me = this;
         ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
-        animator.setDuration(400);
+        this.animateDistance = startPosition-defaultTopY;
+        System.out.println("animatedistance:"+this.animateDistance);
+        animator.setDuration(400);//(long)(animateDistance*0.2)
         animator.setInterpolator(new LinearInterpolator());
         this.fertig = false;
+
         //animator.setInterpolator(new AccelerateInterpolator());
 
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -87,7 +114,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
                 float startX = me.getX();
                 float startY = me.getY();
                 float endX = me.getX();
-                float endY = startPosition-1000f;
+                float endY = startPosition-animateDistance;
                 float currentX = startX + (endX - startX) * progress;
                 float currentY = startY + (endY - startY) * progress;
                 me.setX(currentX);
@@ -110,8 +137,8 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
                 // Animation beendet
 
                 float endX = me.getX();
-                float endY = startPosition-1000f;
-                me.setStartPosition(startPosition-1000f);
+                float endY = startPosition-animateDistance;
+                me.setStartPosition(startPosition-animateDistance);
                 me.setX(endX);
                 me.setY(endY);
                 //System.out.println("Nachher:"+me.getY());
@@ -142,6 +169,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
         animator.setInterpolator(new LinearInterpolator());
         //animator.setInterpolator(new AccelerateInterpolator());
         this.fertig = false;
+        this.animateDistance = this.defaultBottomY-startPosition;
 
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -152,7 +180,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
                 float startX = me.getX();
                 float startY = me.getY();
                 float endX = me.getX();
-                float endY = startPosition + 1000f;
+                float endY = startPosition + animateDistance;
                 float currentX = startX + (endX - startX) * progress;
                 float currentY = startY + (endY - startY) * progress;
                 me.setX(currentX);
@@ -163,7 +191,10 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
                     System.out.println("Animation Start-Y:"+startPosition);
                     System.out.println("Animation End-Y:"+(startPosition+1000f));
                 }*/
-                if(me.checkCollission()){
+                if(me.getY() > me.getScreenHeight()){
+                    System.out.println("=====Verloren=====");
+
+                }else if(me.checkCollission()){
                     System.out.println("Kollission erkannt!");
                     //animator.pause();
                     animator.cancel();
@@ -173,30 +204,6 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
                         me.getMainActivity().getPlatforms().get(i).setPause(true);
                     }
                     me.setFertig(true);
-                    /*
-                    //me.getMainActivity().weiterGenerieren();
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    boolean condition = true;
-                    while(condition){
-                        condition = false;
-                        if(this.wanker.isFertig()==false){
-                            condition = true;
-                            continue;
-                        }
-
-                        for(int i=0;i<me.getMainActivity().getPlatforms().size();i++){
-                            if(me.getMainActivity().getPlatforms().get(i).isFertig()==false){
-                                condition = true;
-                                //System.out.println("Plattform ist noch nicht fertig!");
-                                break;
-                            }
-                        }
-                    }*/
-                    //System.out.println("Bereit zum weiterAnimieren!!!");
                 }
             }
         });
@@ -211,8 +218,8 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
                 // Animation beendet
 
                 float endX = me.getX();
-                float endY = startPosition + 1000f;
-                me.setStartPosition(startPosition + 1000f);
+                float endY = startPosition + animateDistance;
+                me.setStartPosition(startPosition + animateDistance);
                 me.setX(endX);
                 me.setY(endY);
                 //System.out.println("Nachher:" + me.getY());

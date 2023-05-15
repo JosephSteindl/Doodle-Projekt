@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Platform> platforms = new ArrayList<>();
     private Wanker wanker;
     private int count = 0;
+    private float width;
+    private float height;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
         DisplayMetrics dM = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dM);
-        int width = dM.widthPixels;
-        int height = dM.heightPixels;
+        this.width = dM.widthPixels;
+        this.height = dM.heightPixels;
         System.out.println("Width:"+width);
         System.out.println("height:"+height);
         this.wanker.setX(width/2 - this.wanker.getWidth() -75);
@@ -60,7 +62,9 @@ public class MainActivity extends AppCompatActivity {
         this.wanker.setY(height-this.wanker.getMyHeight()-800);
         this.wanker.setStartPosition(this.wanker.getY());
         this.wanker.setMainActivity(this);
-
+        this.wanker.setDefaultTopY(this.wanker.getY()-1000);
+        this.wanker.setDefaultBottomY(2500);
+        this.wanker.setScreenHeight(height);
         //meineTestFunction();
     }
     public void meineTestFunction(){
@@ -106,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
             imageView.setLayoutParams(layoutParams);
             imageView.setMyWidth(230-50);
             imageView.setMyHeight((float)(71*0.9583333));
+            imageView.setScreenHeight(this.width);
 
 
             layout.addView(imageView);
@@ -155,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
 
         Random random = new Random();
         int amountPlatforms = 10;//10 Änderung
+        if(this.platforms.size()>100)amountPlatforms = 0;
 
         for(int i=0;i<amountPlatforms;i++){
             Platform imageView = new Platform(this,this.platforms);
@@ -164,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
             imageView.setLayoutParams(layoutParams);
             imageView.setMyWidth(230-50);
             imageView.setMyHeight((float)(71*0.9583333));
+            imageView.setScreenHeight(this.width);
             layout.addView(imageView);
 
             imageView.setRandomPosition(platforms,yOberstes-1760,yOberstes);

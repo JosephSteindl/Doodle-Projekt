@@ -22,7 +22,7 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
     private ArrayList<Platform> whereAmI;
     private boolean fertig = true;
     private MainActivity mainActivity;
-
+    private float screenHeight;
     public Platform(Context context){
         super(context);
     }
@@ -38,7 +38,13 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
     public Platform(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+    public void setScreenHeight(float screenHeight) {
+        this.screenHeight = screenHeight;
+    }
 
+    public float getScreenHeight() {
+        return screenHeight;
+    }
     public MainActivity getMainActivity() {
         return mainActivity;
     }
@@ -130,7 +136,12 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
                     }
                 }
 
-
+                if(me.getY()>me.getScreenHeight()){
+                    System.out.println("ScreenHeight:"+me.getScreenHeight());
+                    System.out.println("Lösche mich, weil ich außerhalb bin!");
+                    me.whereAmI.remove(me);
+                    System.out.println("Länge jetzt:"+me.whereAmI.size());
+                }
                 if(me.equals(me.whereAmI.get(0))){
                     //System.out.println("Ich bin der erste und werde Animiert!!");
                     //System.out.println("Aktuelles Y:"+me.getY());
@@ -156,7 +167,7 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
                 //System.out.println("Plattform am Ende!");
                 me.setFertig(true);
                 //System.out.println("Nachher:"+me.getY());
-                if(me.getY()>2000){
+                if(me.getY()>me.getScreenHeight()){
                     System.out.println("Lösche mich, weil ich außerhalb bin!");
                     me.whereAmI.remove(me);
                     System.out.println("Länge jetzt:"+me.whereAmI.size());
