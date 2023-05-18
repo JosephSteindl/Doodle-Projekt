@@ -104,15 +104,12 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
         ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
         animator.setDuration(6*1000);
         animator.setInterpolator(new LinearInterpolator());
-        //animator.setInterpolator(new AccelerateInterpolator());
-
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 if(me.isStop()){
                     animation.cancel();
                     me.setFertig(true);
-                    //me.whereAmI.remove(me);
                     boolean all = true;
                     for(int i=0;i<whereAmI.size();i++){
                         if(whereAmI.get(i).isFertig() == false){
@@ -136,7 +133,6 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
                 me.setY(currentY);
                 if(me.isPause()){
                     //System.out.println("Plattform wurde pausiert!");
-                    //animator.pause();
                     animator.cancel();
                     me.setX(currentX);
                     me.setY(currentY);
@@ -160,7 +156,6 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
                 if(me.getY()>me.getScreenHeight()||me.isStop()){
                     me.setVisibility(View.INVISIBLE);
                     me.whereAmI.remove(me);
-                    //System.out.println("Länge jetzt:"+me.whereAmI.size());
                 }
             }
         });
@@ -172,21 +167,15 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
             @Override
             public void onAnimationEnd(Animator animation) {
                 // Animation beendet
-
                 float endX = me.getX();
                 float endY = startPosition+1000f;
                 me.setStartPosition(startPosition+1000f);
                 me.setX(endX);
                 me.setY(endY);
-                //System.out.println("Plattform am Ende!");
                 me.setFertig(true);
-                //System.out.println("Nachher:"+me.getY());
                 if(me.getY()>me.getScreenHeight()){
-                    //System.out.println("Hööööhe:"+me.getScreenHeight());
-                    //System.out.println("Lösche mich, weil ich außerhalb bin!");
                     me.setVisibility(View.INVISIBLE);
                     me.whereAmI.remove(me);
-                    //System.out.println("Länge jetzt:"+me.whereAmI.size());
                 }
 
             }
@@ -205,11 +194,6 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
 
     public void setRandomPosition(ArrayList<Platform> platforms,float min, float max){
         Random random = new Random();
-
-        //imageView.setX(random.nextFloat()*830f);
-
-       // float startY = random.nextFloat()*(1760f-(-80f)+(-80f));
-        //imageView.setY(startY);//-80 bis 1760
         boolean nochmal = true;
         float x = 0;
         float y = 0;
@@ -223,16 +207,9 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
                 float pY = platforms.get(i).getY();
                 float pHeight = platforms.get(i).getMyHeight();
                 float pWidth = platforms.get(i).getMyWidth();
-                /*System.out.println("X:"+x);
-                System.out.println("Y:"+y);
-                System.out.println("pX:"+pX);
-                System.out.println("pY:"+pY);
-                System.out.println("Height:"+pHeight);
-                System.out.println("pWidth:"+pWidth);*/
                 if(y>=pY-pHeight && y<=pY+pHeight && x>=pX-pWidth && x<=pX+pWidth){//
                     //Muss neu generiert werden
                     nochmal = true;
-                    //System.out.println("Nochmal!");
                     break;
                 }
             }
@@ -242,7 +219,4 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
         this.setY(y);
 
     }
-
-    // Hier können Sie Ihre eigenen Methoden und Eigenschaften hinzufügen oder vorhandene Methoden überschreiben.
-
 }

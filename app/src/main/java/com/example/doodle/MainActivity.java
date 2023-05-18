@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Width:"+width);
         System.out.println("height:"+height);
         this.wanker.setX(width/2 - this.wanker.getWidth() -75);
-        //breite /2 - breiteWanker/2
+
         System.out.println("Wanker höhe:"+this.wanker.getMyHeight());
         this.wanker.setY(height-this.wanker.getMyHeight()-800);
         this.wanker.setStartPosition(this.wanker.getY());
@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         this.wanker.setDefaultBottomY(2500);
         this.wanker.setScreenHeight(height);
 
-        //meineTestFunction();
         layout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -114,16 +113,10 @@ public class MainActivity extends AppCompatActivity {
         final Button start_btn = findViewById(R.id.start_btn);
         start_btn.setText("Nochmal");
         start_btn.setVisibility(View.INVISIBLE);
-        //start_btn.setVisibility(View.GONE);
-        //start_btn.setOnClickListener(v-> weiterGenerieren());
-
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(230,ViewGroup.LayoutParams.WRAP_CONTENT);
         FrameLayout layout = findViewById(R.id.myFrame);
-        //layout.addView(imageView);
-
-        Random random = new Random();
-        int amountPlatforms = 20;//20 Änderung
+        int amountPlatforms = 20;
 
         for(int i=0;i<amountPlatforms;i++){
             Platform imageView = new Platform(this,this.platforms);
@@ -134,32 +127,15 @@ public class MainActivity extends AppCompatActivity {
             imageView.setMyWidth(230-50);
             imageView.setMyHeight((float)(71*0.9583333));
             imageView.setScreenHeight(this.height);
-
             layout.addView(imageView);
-            //System.out.println(imageView.hei);
-
-            //imageView.setX(random.nextFloat()*830f);
-
-            //float startY = random.nextFloat()*(1760f-(-80f)+(-80f));
-            //imageView.setY(startY);//-80 bis 1760
 
             imageView.setRandomPosition(platforms,1760f,-1680f); //Änderung -> zeile wieder gültig machen und unteren 2 zeilen wegmachen
-            //imageView.setX(400);
-            //imageView.setY(200);
-            //imageView.setY(-80f);//-80 bis 1760
-            imageView.setStartPosition(imageView.getY());
-            //imageView.setStartPosition(-80f);
-            //Zufallszahl so lange generieren bis kein anderes element im Weg ist!
 
-            //imageView.createAndStartAnimation();
+            imageView.setStartPosition(imageView.getY());
         }
         weiterGenerieren();
     }
-    private WankerThread wankerThread;
     public void weiterGenerieren(){
-        /*this.wankerThread = new WankerThread(this.wanker);
-        this.wankerThread.start();*/
-
         //System.out.println("Generiere weiter...");
         float yOberstes = 0;
         for(int i=0;i<platforms.size();i++){
@@ -169,15 +145,10 @@ public class MainActivity extends AppCompatActivity {
         }
         //System.out.println("Oberstes Y:"+yOberstes);
 
-        LinearLayout.LayoutParams layoutParams =
-                //new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                //new LinearLayout.LayoutParams(230,130);//230 230
-                new LinearLayout.LayoutParams(230,ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(230,ViewGroup.LayoutParams.WRAP_CONTENT);
         FrameLayout layout = findViewById(R.id.myFrame);
-        //layout.addView(imageView);
 
-        Random random = new Random();
-        int amountPlatforms = 5;//10 Änderung
+        int amountPlatforms = 5;
         if(this.platforms.size()>100)amountPlatforms = 0;
 
         for(int i=0;i<amountPlatforms;i++){
@@ -207,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
         for(int i=0;i<this.platforms.size();i++){
             this.platforms.get(i).setVisibility(View.INVISIBLE);
         }
-        //this.platforms.clear();
         start_btn.setOnClickListener(v->generatePlatforms());
     }
 
