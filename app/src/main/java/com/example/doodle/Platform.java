@@ -102,7 +102,7 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
         this.fertig = false;
         Platform me = this;
         ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
-        animator.setDuration(4*1000);
+        animator.setDuration(6*1000);
         animator.setInterpolator(new LinearInterpolator());
         //animator.setInterpolator(new AccelerateInterpolator());
 

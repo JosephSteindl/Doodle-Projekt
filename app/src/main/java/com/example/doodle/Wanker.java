@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +25,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
     private float defaultTopY;
     private float defaultBottomY;
     private float screenHeight;
+    private int jumps = 0;
 
     public Wanker(@NonNull Context context) {
         super(context);
@@ -35,6 +37,14 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
 
     public Wanker(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    public int getJumps() {
+        return jumps;
+    }
+
+    public void setJumps(int jumps) {
+        this.jumps = jumps;
     }
 
     public void setScreenHeight(float screenHeight) {
@@ -118,7 +128,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
                 float endY = startPosition-animateDistance;
                 float currentX = startX + (endX - startX) * progress;
                 float currentY = startY + (endY - startY) * progress;
-                me.setX(currentX);
+                //me.setX(currentX);
                 me.setY(currentY);
                 /*if(me.equals(me.whereAmI.get(0))){
                     System.out.println("Ich bin der erste und werde Animiert!!");
@@ -140,7 +150,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
                 float endX = me.getX();
                 float endY = startPosition-animateDistance;
                 me.setStartPosition(startPosition-animateDistance);
-                me.setX(endX);
+                //me.setX(endX);
                 me.setY(endY);
                 //System.out.println("Nachher:"+me.getY());
                 /*if(me.getY()>2000){
@@ -166,7 +176,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
     public void createAndAnimateDown() {
         Wanker me = this;
         ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
-        animator.setDuration(4 * 1000);
+        animator.setDuration(6 * 1000);
         animator.setInterpolator(new LinearInterpolator());
         //animator.setInterpolator(new AccelerateInterpolator());
         this.fertig = false;
@@ -184,7 +194,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
                 float endY = startPosition + animateDistance;
                 float currentX = startX + (endX - startX) * progress;
                 float currentY = startY + (endY - startY) * progress;
-                me.setX(currentX);
+                //me.setX(currentX);
                 me.setY(currentY);
                 /*if(me.equals(me.whereAmI.get(0))){
                     System.out.println("Ich bin der erste und werde Animiert!!");
@@ -202,9 +212,13 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
 
                 }else if(me.checkCollission()){
                     System.out.println("Kollission erkannt!");
+                    TextView tv = findViewById(R.id.score);
+                    me.setJumps(me.getJumps()+1);
+                    System.out.println("Jumps:"+me.getJumps());
+                    tv.setText(Integer.toString(me.getJumps()));
                     //animator.pause();
                     animator.cancel();
-                    me.setX(currentX);
+                    //me.setX(currentX);
                     me.setY(currentY);
                     for(int i=0;i<me.getMainActivity().getPlatforms().size();i++){
                         me.getMainActivity().getPlatforms().get(i).setPause(true);
@@ -226,7 +240,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
                 float endX = me.getX();
                 float endY = startPosition + animateDistance;
                 me.setStartPosition(startPosition + animateDistance);
-                me.setX(endX);
+                //me.setX(endX);
                 me.setY(endY);
                 //System.out.println("Nachher:" + me.getY());
                 /*if(me.getY()>2000){

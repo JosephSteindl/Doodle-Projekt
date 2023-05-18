@@ -8,6 +8,7 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -32,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     private int count = 0;
     private float width;
     private float height;
-    private TextView verlorenTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,25 @@ public class MainActivity extends AppCompatActivity {
         this.wanker.setDefaultTopY(this.wanker.getY()-1000);
         this.wanker.setDefaultBottomY(2500);
         this.wanker.setScreenHeight(height);
+
         //meineTestFunction();
+        layout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        float x = event.getX(); // X-Koordinate des Touch-Ereignisses
+                        float y = event.getY(); // Y-Koordinate des Touch-Ereignisses
+                        // Weitere Verarbeitung der Koordinaten
+                        System.out.println("geklickt:"+event.getX());
+                        wanker.setX(event.getX());
+                        return true;
+                }
+                return false;
+            }
+        });
+
 
 
     }
@@ -160,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
         //layout.addView(imageView);
 
         Random random = new Random();
-        int amountPlatforms = 10;//10 Änderung
+        int amountPlatforms = 5;//10 Änderung
         if(this.platforms.size()>100)amountPlatforms = 0;
 
         for(int i=0;i<amountPlatforms;i++){
