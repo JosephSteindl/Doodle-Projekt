@@ -178,6 +178,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
 
                 if(me.getY() > me.getScreenHeight()){
                     System.out.println("=====Verloren=====");
+                    me.setJumps(0);
                     animator.cancel();
                     for(int i=0;i<me.getMainActivity().getPlatforms().size();i++){
                         me.getMainActivity().getPlatforms().get(i).setStop(true);
