@@ -23,6 +23,7 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
     private boolean fertig = true;
     private MainActivity mainActivity;
     private float screenHeight;
+    private boolean stop = false;
     public Platform(Context context){
         super(context);
     }
@@ -37,6 +38,12 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
 
     public Platform(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+    public boolean isStop() {
+        return stop;
+    }
+    public void setStop(boolean stop) {
+        this.stop = stop;
     }
     public void setScreenHeight(float screenHeight) {
         this.screenHeight = screenHeight;
@@ -90,19 +97,32 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
         return myWidth;
     }
 
-    private int counter = 0;
     public void createAndStartAnimation(){
         this.fertig = false;
         Platform me = this;
         ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
-        animator.setDuration(1*1000);
+        animator.setDuration(2*1000);
         animator.setInterpolator(new LinearInterpolator());
         //animator.setInterpolator(new AccelerateInterpolator());
 
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-
+                if(me.isStop()){
+                    animation.cancel();
+                    me.setFertig(true);
+                    //me.whereAmI.remove(me);
+                    boolean all = true;
+                    for(int i=0;i<whereAmI.size();i++){
+                        if(whereAmI.get(i).isFertig() == false){
+                            all = false;
+                            break;
+                        }
+                    }
+                    if(all){
+                        me.getMainActivity().prepareForRestart();
+                    }
+                }
                 //System.out.println("Animiere:"+counter++);
                 float progress = (float) animation.getAnimatedValue();
                 float startX = me.getX();
@@ -136,11 +156,10 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
                     }
                 }
 
-                if(me.getY()>me.getScreenHeight()){
-                    System.out.println("ScreenHeight:"+me.getScreenHeight());
-                    System.out.println("Lösche mich, weil ich außerhalb bin!");
+                if(me.getY()>me.getScreenHeight()||me.isStop()){
+                    System.out.println("Holla die Waldfeeeeee!!!");
                     me.whereAmI.remove(me);
-                    System.out.println("Länge jetzt:"+me.whereAmI.size());
+                    //System.out.println("Länge jetzt:"+me.whereAmI.size());
                 }
                 if(me.equals(me.whereAmI.get(0))){
                     //System.out.println("Ich bin der erste und werde Animiert!!");
@@ -168,9 +187,10 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
                 me.setFertig(true);
                 //System.out.println("Nachher:"+me.getY());
                 if(me.getY()>me.getScreenHeight()){
-                    System.out.println("Lösche mich, weil ich außerhalb bin!");
+                    //System.out.println("Hööööhe:"+me.getScreenHeight());
+                    //System.out.println("Lösche mich, weil ich außerhalb bin!");
                     me.whereAmI.remove(me);
-                    System.out.println("Länge jetzt:"+me.whereAmI.size());
+                    //System.out.println("Länge jetzt:"+me.whereAmI.size());
                 }
 
             }

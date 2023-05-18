@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -98,8 +99,8 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
         Wanker me = this;
         ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
         this.animateDistance = startPosition-defaultTopY;
-        System.out.println("animatedistance:"+this.animateDistance);
-        animator.setDuration(400);//(long)(animateDistance*0.2)
+        //System.out.println("animatedistance:"+this.animateDistance);
+        animator.setDuration(500);//(long)(animateDistance*0.2)
         animator.setInterpolator(new LinearInterpolator());
         this.fertig = false;
 
@@ -165,7 +166,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
     public void createAndAnimateDown() {
         Wanker me = this;
         ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
-        animator.setDuration(1 * 1000);
+        animator.setDuration(2 * 1000);
         animator.setInterpolator(new LinearInterpolator());
         //animator.setInterpolator(new AccelerateInterpolator());
         this.fertig = false;
@@ -193,6 +194,11 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
                 }*/
                 if(me.getY() > me.getScreenHeight()){
                     System.out.println("=====Verloren=====");
+                    animator.cancel();
+                    for(int i=0;i<me.getMainActivity().getPlatforms().size();i++){
+                        me.getMainActivity().getPlatforms().get(i).setStop(true);
+                    }
+                    //me.getMainActivity().prepareForRestart();
 
                 }else if(me.checkCollission()){
                     System.out.println("Kollission erkannt!");
@@ -266,11 +272,11 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
             Platform p = platforms.get(i);
             Coordinate platformLO = new Coordinate(p.getX(),p.getY());
             Coordinate platformRO = new Coordinate(p.getX()+p.getMyWidth(),p.getY());
-            float puffer = 5f;
+            float puffer = 30f;
             //System.out.println("Y-Wanker:"+(this.getY()+this.getMyHeight()));
             //System.out.println("Y-oben-platf.:"+p.getY());
             //System.out.println("Y-unten-platf.:"+(p.getY()+p.getMyHeight()));
-            if(this.getY()+this.getMyHeight() >= p.getY()-20 && this.getY()+this.getMyHeight() <= p.getY()+p.getMyHeight()){//this.getY() >= p.getY()-puffer && this.getY() <= p.getY()+puffer
+            if(this.getY()+this.getMyHeight() >= p.getY()-puffer && this.getY()+this.getMyHeight() <= p.getY()+p.getMyHeight()){//this.getY() >= p.getY()-puffer && this.getY() <= p.getY()+puffer
                 //System.out.println("Platform ist jetzt auf gleicher höhe wie Wanker!"+collisionCount++);
                 //Y-Koordinate vergleichen
                 if((wankerLU.getX() > platformLO.getX() && wankerLU.getX() < platformRO.getX()) ||(wankerRU.getX() > platformLO.getX() && wankerRU.getX() < platformRO.getX())){
