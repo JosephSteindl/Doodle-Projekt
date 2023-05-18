@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
@@ -157,15 +158,9 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
                 }
 
                 if(me.getY()>me.getScreenHeight()||me.isStop()){
-                    System.out.println("Holla die Waldfeeeeee!!!");
+                    me.setVisibility(View.INVISIBLE);
                     me.whereAmI.remove(me);
                     //System.out.println("Länge jetzt:"+me.whereAmI.size());
-                }
-                if(me.equals(me.whereAmI.get(0))){
-                    //System.out.println("Ich bin der erste und werde Animiert!!");
-                    //System.out.println("Aktuelles Y:"+me.getY());
-                    //System.out.println("Animation Start-Y:"+startPosition);
-                    //System.out.println("Animation End-Y:"+(startPosition+1000f));
                 }
             }
         });
@@ -189,6 +184,7 @@ public class Platform extends androidx.appcompat.widget.AppCompatImageView {
                 if(me.getY()>me.getScreenHeight()){
                     //System.out.println("Hööööhe:"+me.getScreenHeight());
                     //System.out.println("Lösche mich, weil ich außerhalb bin!");
+                    me.setVisibility(View.INVISIBLE);
                     me.whereAmI.remove(me);
                     //System.out.println("Länge jetzt:"+me.whereAmI.size());
                 }
