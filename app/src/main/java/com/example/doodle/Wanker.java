@@ -100,7 +100,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
         ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
         this.animateDistance = startPosition-defaultTopY;
         //System.out.println("animatedistance:"+this.animateDistance);
-        animator.setDuration(500);//(long)(animateDistance*0.2)
+        animator.setDuration(1000);//(long)(animateDistance*0.2)
         animator.setInterpolator(new LinearInterpolator());
         this.fertig = false;
 
@@ -166,7 +166,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
     public void createAndAnimateDown() {
         Wanker me = this;
         ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
-        animator.setDuration(2 * 1000);
+        animator.setDuration(4 * 1000);
         animator.setInterpolator(new LinearInterpolator());
         //animator.setInterpolator(new AccelerateInterpolator());
         this.fertig = false;
