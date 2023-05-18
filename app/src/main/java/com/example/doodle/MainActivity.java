@@ -85,8 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
+        this.wanker.setScoreDisplay(findViewById(R.id.score));
 
     }
     public void meineTestFunction(){

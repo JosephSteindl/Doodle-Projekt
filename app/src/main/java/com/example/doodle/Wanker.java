@@ -26,6 +26,7 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
     private float defaultBottomY;
     private float screenHeight;
     private int jumps = 0;
+    private TextView scoreDisplay;
 
     public Wanker(@NonNull Context context) {
         super(context);
@@ -37,6 +38,13 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
 
     public Wanker(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+    public TextView getScoreDisplay() {
+        return scoreDisplay;
+    }
+
+    public void setScoreDisplay(TextView scoreDisplay) {
+        this.scoreDisplay = scoreDisplay;
     }
 
     public int getJumps() {
@@ -212,10 +220,9 @@ public class Wanker extends androidx.appcompat.widget.AppCompatImageView{
 
                 }else if(me.checkCollission()){
                     System.out.println("Kollission erkannt!");
-                    TextView tv = findViewById(R.id.score);
                     me.setJumps(me.getJumps()+1);
-                    System.out.println("Jumps:"+me.getJumps());
-                    tv.setText(Integer.toString(me.getJumps()));
+                    //System.out.println("Jumps:"+me.getJumps());
+                    me.getScoreDisplay().setText(Integer.toString(me.getJumps()));
                     //animator.pause();
                     animator.cancel();
                     //me.setX(currentX);
